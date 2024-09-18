@@ -1,0 +1,42 @@
+# Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.env
+
+# Virtual environments
+venv/
+env/
+*.env
+coms
+
+# Django stuff
+db.sqlite3
+*.log
+/staticfiles/
+/media/
+/*.pkl
+*.sqlite3
+
+# Environment
+.env
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*~
+.project
+.pydevproject
+.DS_Store
+
+# Migrations
+*/migrations/*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# PostgreSQL dumps
+*.dump
