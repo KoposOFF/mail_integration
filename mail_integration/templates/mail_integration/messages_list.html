@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список сообщений</title>
+    <style>
+        /* Пример стилей для прогресс-бара */
+        #progress-bar {
+            width: 100%;
+            background-color: #f3f3f3;
+            border: 1px solid #ddd;
+        }
+        #progress-bar-fill {
+            width: 0%;
+            height: 24px;
+            background-color: #4caf50;
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Список сообщений</h1>
+    <div id="progress-bar">
+        <div id="progress-bar-fill">0%</div>
+    </div>
+    <table id="messages-table">
+        <!-- Здесь будет список сообщений -->
+    </table>
+
+    <script>
+        const socket = new WebSocket('ws://127.0.0.1:8000/ws/messages/');
+
+        socket.onopen = function() {
+            console.log('WebSocket connection opened');
+            socket.send(JSON.stringify({ 'action': 'fetch_emails' }));
+        };
+
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            console.log(data.message);
+            // Здесь обновляем прогресс-бар и таблицу сообщений
+            updateProgressBar(data.progress);
+            updateMessagesTable(data.messages);
+        };
+
+        socket.onclose = function() {
+            console.log('WebSocket connection closed');
+        };
+
+        function updateProgressBar(progress) {
+            const progressBarFill = document.getElementById('progress-bar-fill');
+            progressBarFill.style.width = progress + '%';
+            progressBarFill.textContent = progress + '%';
+        }
+
+        function updateMessagesTable(messages) {
+            const table = document.getElementById('messages-table');
+            table.innerHTML = ''; // Очистить таблицу перед обновлением
+
+            messages.forEach(message => {
+                const row = table.insertRow();
+                row.insertCell(0).textContent = message.subject;
+                row.insertCell(1).textContent = message.sent_date;
+                row.insertCell(2).textContent = message.received_date;
+                row.insertCell(3).textContent = message.body.substring(0, 100); // Первые 100 символов текста
+            });
+        }
+    </script>
+</body>
+</html>
