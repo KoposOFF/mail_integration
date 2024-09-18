@@ -10,7 +10,7 @@ class EmailAccount(models.Model):
 
 class EmailMessage(models.Model):
     subject = models.CharField(max_length=255)  # Тема сообщения
-    send_date = models.DateTimeField()  # Дата отправки
+    sent_date = models.DateTimeField()  # Дата отправки
     received_date = models.DateTimeField()  # Дата получения
     body = models.TextField()  # Текст сообщения
     attachments = models.TextField(blank=True, null=True)  # Список файлов
